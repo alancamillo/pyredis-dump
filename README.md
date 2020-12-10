@@ -15,6 +15,7 @@ and loads data from such dump files back into Redis.
 - Dumps are human readable
 - Dumps are line-aligned (can be streamed)
 - Can be used as a module in a larger program or as a standalone utility
+- SSL connection support (use -x as parameter to enable SSL)
 
 ## Python 2/3 Compatability
 
