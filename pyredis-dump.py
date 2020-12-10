@@ -59,7 +59,7 @@ class RedisDump(Redis):
         p.sadd(key, element)
     elif key_type==b'zset':
       for element, score in value:
-        p.zadd(key, score, element)
+        p.zadd(key, {element: score})
     elif key_type==b'hash':
       p.hmset(key, value)
     else: raise TypeError('Unknown type=%r' % type)
@@ -114,6 +114,7 @@ def options2kw(options):
     kw['host']=options.host
     kw['port']=options.port
   if options.password: kw['password']=options.password
+  if options.ssl: kw['ssl'] = options.ssl
   return kw
 
 def main():
@@ -131,6 +132,7 @@ def main():
   # parser.add_option("-e", action="store_true", dest="use_expire_at", help="use expire_at when in restore mode")
   parser.add_option("-t", action="store_true", dest="use_ttl", help="use ttl when in restore mode")
   parser.add_option('-b', '--bulk', help='restore bulk size', default=1000, type="int")
+  parser.add_option("-x", help='use ssl to connect', action="store_true", dest="ssl", default=False)
   options, args = parser.parse_args()
   if len(args)!=1:
     parser.print_help()
